@@ -1,0 +1,18 @@
+<div class="" [ngClass]="containerClass">
+    <div class="">
+        <app-topbar></app-topbar>
+    </div>
+    <div class="grid grid-nogutter">
+        <div class="col-2">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-10">
+            <div class="">
+                <router-outlet />
+            </div>
+            <div class="">
+                <app-footer></app-footer>
+            </div>
+        </div>
+    </div>
+</div>

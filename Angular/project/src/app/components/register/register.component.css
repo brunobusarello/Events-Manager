@@ -1,0 +1,5 @@
+.card-container .form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os inputs */
+}

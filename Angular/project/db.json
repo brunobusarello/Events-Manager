@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "fa5c",
+      "fullName": "Bruno Gustavo Busarello",
+      "email": "gustavobusarellobruno@gmail.com",
+      "password": "123",
+      "cpf": "085.534.419-97"
+    },
+    {
+      "id": "0855",
+      "fullName": "Teste",
+      "email": "teste@teste.com",
+      "password": "11",
+      "cpf": "111.111.111-11"
+    },
+    {
+      "id": "ebd1",
+      "fullName": "Bruno Gustavo Busarello",
+      "email": "",
+      "password": "1",
+      "cpf": "085.534.419-97"
+    }
+  ]
+}

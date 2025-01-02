@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@import "../node_modules/primeflex/primeflex.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+html,
+body {
+    font-family: Inter, Arial;
+    height: 100vh;
+    margin: 0;
+}
+
+body.centered-route {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+router-outlet+* {
+    width: auto;
+    /* Garante que o componente filho ocupe espaço dinâmico */
+}

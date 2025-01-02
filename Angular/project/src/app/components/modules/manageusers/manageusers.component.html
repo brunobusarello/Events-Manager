@@ -1,0 +1,36 @@
+
+<div [style]="{padding: '20px'}">
+    <div class="p-2 flex flex-wrap justify-content-satrt gap-3">
+        <p-button label="Adicionar" (onClick)="showAddModal()" />
+        <p-button label="Editar" [disabled]="editButton" (onClick)="showEditModal()" />
+        <p-button label="Deletar" [disabled]="editButton" (onClick)="showDeleteModal()" />
+    </div>
+    <p-table [value]="users" selectionMode="single" [(selection)]="selectedUser" (click)="showSelected()" [metaKeySelection]="metaKey" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>CPF</th>
+                <th>Privilégios</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-user>
+            <tr [pSelectableRow]="user">
+                <td>{{ user.id }}</td>
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.cpf }}</td>
+                @if (user.privilegies === 1) {
+                    <td>Visualizador</td>
+                }
+                @if (user.privilegies === 2) {
+                    <td>Admin</td>
+                }
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 30]" />
+
+    <ng-template #container></ng-template>
+</div>

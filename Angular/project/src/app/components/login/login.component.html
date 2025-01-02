@@ -1,0 +1,27 @@
+<form [formGroup]="loginForm" class="form" (ngSubmit)="verifyUser()">
+    <p-card header="Login" [style]="{ width: '400px' }">
+        <div pFocusTrap class="form-content">
+            <p-floatlabel variant="in">
+                <input type="email" pInputText formControlName="email" class="w-full" name="email" autocomplete="on" autofocus="true" />
+                <label for="email">Email</label>
+            </p-floatlabel>
+            @if (email.invalid && (email.dirty || email.touched)) {
+                <small class="block p-error">
+                    @if (email.errors?.['required']) {
+                        <div>É necessário informar um email</div>
+                    }
+                    @if (email.errors?.['email']) {
+                        <div>Informe um email válido</div>
+                    }
+                </small>
+            }
+            <p-floatlabel variant="in">
+                <p-password formControlName="password" class="w-full" name="password" [toggleMask]="true"
+                    [feedback]="false" styleClass="w-full" inputStyleClass="w-full" />
+                <label for="password">Senha</label>
+            </p-floatlabel>
+            <p-button type="submit" label="Login" icon="pi" [loading]="loading" (onClick)="load()" styleClass="w-full" />
+            <div>Não possui registro? <a routerLink="/register">Registro</a></div>
+        </div>
+    </p-card>
+</form>

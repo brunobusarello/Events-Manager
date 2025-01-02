@@ -1,0 +1,48 @@
+<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible">
+    <form [formGroup]="loginForm" class="form" (ngSubmit)="submitDetails()">
+        <p-card [style]="{ width: '400px'}" class="card-container">
+            <div pFocusTrap class="form-content">
+                <p-floatlabel variant="in">
+                    <input pInputText formControlName="fullName" id="fullName" name="fullName" class="w-full"
+                        autocomplete="on" autofocus="true" />
+                    <label for="fullName">Nome Completo</label>
+                </p-floatlabel>
+                <p-floatlabel variant="in">
+                    <input type="email" pInputText formControlName="email" class="w-full" name="email"
+                        autocomplete="on" />
+                    <label for="email">Email</label>
+                </p-floatlabel>
+                @if (email.invalid && (email.dirty || email.touched)) {
+                <small class="block p-error">
+                    @if (email.errors?.['required']) {
+                    <div>É necessário informar um email</div>
+                    }
+                    @if (email.errors?.['email']) {
+                    <div>Informe um email válido</div>
+                    }
+                </small>
+                }
+                <p-floatlabel variant="in">
+                    <p-inputmask formControlName="cpf" id="cpf" name="cpf" mask="999.999.999-99" styleClass="w-full"/>
+                    <label for="cpf">CPF</label>
+                </p-floatlabel>
+                <p-floatlabel variant="in">
+                    <p-password formControlName="password" name="password" [toggleMask]="true" [feedback]="false"
+                        styleClass="w-full" inputStyleClass="w-full" />
+                    <label for="password">Senha</label>
+                </p-floatlabel>
+                <p-floatlabel variant="in">
+                    <p-password formControlName="confirmPassword" class="w-full" name="confirmPassword"
+                        [toggleMask]="true" [feedback]="false" styleClass="w-full" inputStyleClass="w-full" />
+                    <label for="confirmPassword">Confirmar Senha</label>
+                </p-floatlabel>
+                @if (loginForm.errors?.['passwordMismatch'] && confirmPassword.valid && password.valid) {
+                <small>Senhas não conferem</small>
+                }
+                <p-selectbutton [options]="privilegies" formControlName="privilegies" optionLabel="label" optionValue="value" />
+                <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="loginForm.invalid"
+                    [loading]="loading" (onClick)="load()" styleClass="w-full" />
+            </div>
+        </p-card>
+    </form>
+</p-dialog>
