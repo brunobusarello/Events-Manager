@@ -1,9 +1,12 @@
 package com.events.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -15,6 +18,18 @@ public class User {
     private String cpf;
     private String password;
     private int privilegies;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<EventsUsers> inscritEvents = new ArrayList<>();
+
+    public List<EventsUsers> getInscritEvents() {
+        return inscritEvents;
+    }
+
+    public void setInscritEvents(List<EventsUsers> inscritEvents) {
+        this.inscritEvents = inscritEvents;
+    }
 
     public long getId() {
         return id;

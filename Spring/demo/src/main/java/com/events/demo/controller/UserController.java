@@ -51,6 +51,11 @@ public class UserController {
         return usersDTO;
     }
 
+    @GetMapping("/teste")
+    public List<User> showEvents(){
+        return userService.getUsers();
+    }
+
     @GetMapping("/limited")
     public ResponseUserDTO getLimitUsers(@RequestParam(defaultValue = "0") int offset,
             @RequestParam(defaultValue = "10") int limit) {

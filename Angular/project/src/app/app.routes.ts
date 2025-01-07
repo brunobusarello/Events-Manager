@@ -6,6 +6,7 @@ import { authGuard } from './guards/auth.guard';
 import { DashboardComponent } from './components/modules/dashboard/dashboard.component';
 import { ManageusersComponent } from './components/modules/manageusers/manageusers.component';
 import { privilegiesGuard } from './guards/privilegies.guard';
+import { ManageeventsComponent } from './components/modules/manageevents/manageevents.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -20,6 +21,11 @@ export const routes: Routes = [
             {
                 path: 'users',
                 component: ManageusersComponent,
+                canActivate: [privilegiesGuard]
+            },
+            {
+                path: 'events',
+                component: ManageeventsComponent,
                 canActivate: [privilegiesGuard]
             }
         ]

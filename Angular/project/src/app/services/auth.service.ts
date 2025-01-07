@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/auth';
 import { catchError, Observable, throwError } from 'rxjs';
+import { Events } from '../interfaces/events';
+import { NgOptimizedImage } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
+  // Requisições HTTP para os usuários
   registerUser(userDetails: User) {
     return this.httpClient.post(`${this.baseUrl}/users`, userDetails)
   }
@@ -43,5 +46,26 @@ export class AuthService {
 
   deleteUser(id: number) {
     return this.httpClient.delete(`${this.baseUrl}/users/${id}`)
+  }
+
+  // Requisições HTTP para os eventos
+  getEvents(offset: number, limit: number): Observable<{events: Events[], totalEvents: number}> {
+    return this.httpClient.get<{events: Events[], totalEvents: number}>(`${this.baseUrl}/events/limited?offset=${offset}&limit=${limit}`)
+  }
+
+  registerEvents(events: Events){
+    return this.httpClient.post(`${this.baseUrl}/events`, events);
+  }
+
+  getEvent(id: number): Observable<Events> {
+    return this.httpClient.get<Events>(`${this.baseUrl}/events/${id}`)
+  }
+
+  updateEvent(id: number, event: Events) {
+    return this.httpClient.put(`${this.baseUrl}/events/${id}`, event)
+  }
+
+  deleteEvent(id: number){
+    return this.httpClient.delete(`${this.baseUrl}/events/${id}`)
   }
 }

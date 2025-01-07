@@ -1,0 +1,25 @@
+<p-dialog header="Cadastrar Evento" [modal]="true" [(visible)]="visible">
+    <form [formGroup]="eventForm" class="form" (ngSubmit)="submitDetails()">
+        <p-card [style]="{ width: '400px'}" class="card-container">
+            <div pFocusTrap class="form-content">
+                <p-floatlabel variant="in">
+                    <input pInputText formControlName="nome" id="nome" name="nome" class="w-full"
+                        autocomplete="on" autofocus="true" />
+                    <label for="nome">Nome</label>
+                </p-floatlabel>
+                <p-floatlabel variant="in">
+                    <input pInputText formControlName="local" id="local" name="local" class="w-full"
+                        autocomplete="on" autofocus="true" />
+                    <label for="local">Local</label>
+                </p-floatlabel>
+                <p-floatlabel variant="in">
+                    <p-datepicker appendTo="body" formControlName="dataEvento" dateFormat="dd/mm/yy" inputId="in_label" size="small" showIcon iconDisplay="input" />
+                    <label for="in_label">Data do Evento</label>
+                </p-floatlabel>
+                
+                <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="eventForm.invalid"
+                    [loading]="loading" (onClick)="load()" styleClass="w-full" />
+            </div>
+        </p-card>
+    </form>
+</p-dialog>

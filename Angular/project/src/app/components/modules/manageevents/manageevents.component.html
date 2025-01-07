@@ -1,0 +1,28 @@
+<div [style]="{padding: '20px'}">
+    <div class="p-2 flex flex-wrap justify-content-satrt gap-3">
+        <p-button label="Adicionar" (onClick)="showAddModal()" />
+        <p-button label="Editar" [disabled]="editButton" (onClick)="showEditModal()" />
+        <p-button label="Deletar" [disabled]="editButton" (onClick)="showDeleteModal()" />
+    </div>
+    <p-table [value]="events" selectionMode="single" [(selection)]="selectedEvents" (click)="showSelected()" [metaKeySelection]="metaKey" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Local</th>
+                <th>Data</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-events>
+            <tr [pSelectableRow]="events">
+                <td>{{ events.id }}</td>
+                <td>{{ events.nome }}</td>
+                <td>{{ events.local }}</td>
+                <td>{{ events.dataEvento }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="total" [rowsPerPageOptions]="[10, 20, 30]" />
+
+    <ng-template #container></ng-template>
+</div>

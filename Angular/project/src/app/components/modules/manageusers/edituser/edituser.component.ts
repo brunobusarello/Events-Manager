@@ -15,7 +15,6 @@ import { ToastModule } from 'primeng/toast';
 import { Observable, of, finalize } from 'rxjs';
 import { User } from '../../../../interfaces/auth';
 import { AuthService } from '../../../../services/auth.service';
-import { passwordMatchValidator } from '../../../../shared/passord-match.directive';
 import { ManageusersComponent } from '../manageusers.component';
 
 @Component({
