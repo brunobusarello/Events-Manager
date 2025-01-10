@@ -16,6 +16,17 @@
                     <p-datepicker appendTo="body" formControlName="dataEvento" dateFormat="dd/mm/yy" inputId="in_label" size="small" showIcon iconDisplay="input" />
                     <label for="in_label">Data do Evento</label>
                 </p-floatlabel>
+
+                <p-fileupload #fileUploader name="file" url="http://localhost:8080/api/files/upload/{{this.id}}" [showUploadButton]="false" [showCancelButton]="false" (onUpload)="onUpload($any($event))" accept="image/*" maxFileSize="1000000" mode="advanced">
+                    <ng-template #empty>
+                        <div>Drag and drop files to here to upload.</div>
+                    </ng-template>
+                    <ng-template #content>
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileupload>
                 
                 <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="eventForm.invalid"
                     [loading]="loading" (onClick)="load()" styleClass="w-full" />

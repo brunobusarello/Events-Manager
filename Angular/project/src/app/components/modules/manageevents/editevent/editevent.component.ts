@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -16,20 +16,30 @@ import { finalize } from 'rxjs';
 import { Events } from '../../../../interfaces/events';
 import { AuthService } from '../../../../services/auth.service';
 import { ManageeventsComponent } from '../manageevents.component';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FileUpload } from 'primeng/fileupload';
+import { HttpClient } from '@angular/common/http';
+
+interface UploadEvent {
+  originalEvent: Event;
+  files: File;
+}
 
 @Component({
   selector: 'app-editevent',
-  imports: [Card, InputTextModule, FloatLabel, ReactiveFormsModule, PasswordModule, ButtonModule, RouterModule, FocusTrap, ToastModule, DialogModule, FormsModule, SelectButtonModule, DatePicker],
+  imports: [Card, InputTextModule, FloatLabel, ReactiveFormsModule, PasswordModule, ButtonModule, RouterModule, FocusTrap, ToastModule, DialogModule, FormsModule, SelectButtonModule, DatePicker, FileUpload, CommonModule],
   templateUrl: './editevent.component.html',
   styleUrl: './editevent.component.css'
 })
 export class EditeventComponent {
+  @ViewChild('fileUploader') fileUploader!: FileUpload
   @Input() id!: number;
   visible = true;
 
   formatedDate!: string;
   originalDate!: string;
+
+  uploadedFiles: any[] = [];
 
   loading = false;
   disableBtn = true;
@@ -42,10 +52,39 @@ export class EditeventComponent {
   },
   )
 
-  constructor(private httpMethods: AuthService, private messageService: MessageService, private router: Router, private manageEvents: ManageeventsComponent, private datePipe: DatePipe) { }
+  constructor(private httpMethods: AuthService, private messageService: MessageService, private router: Router, private manageEvents: ManageeventsComponent, private datePipe: DatePipe, private http: HttpClient) { }
 
   ngOnInit() {
+    this.http.get(`http://localhost:8080/api/files/download/${this.id}`, { responseType: "blob" }).subscribe({
+      next: (blob: Blob) => {
+        const fileName = 'informations.png'
+        const file = new File([blob], fileName, { type: blob.type });
+        
+        const objectURL = URL.createObjectURL(file);
+
+        this.fileUploader.files.push(file);
+
+        (file as any).objectURL = objectURL;
+
+        this.fileUploader.cd.markForCheck();
+      },
+      error: error => {
+        console.error(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Mostrar imagem',
+        });
+      }
+    })
     this.loadUserData()
+  }
+
+  onUpload(event: UploadEvent) {
+    this.uploadedFiles.push(event.files);
+    console.log(this.uploadedFiles)
+
+    this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
 
   loadUserData() {
@@ -71,12 +110,19 @@ export class EditeventComponent {
   }
 
   submitDetails() {
+    if (this.fileUploader.files.length > 0) {
+      this.fileUploader.upload();
+    } else {
+      console.error('Nenhum arquivo selecionado para upload.');
+    }
+
     let postData = { ...this.eventForm.value };
 
     if (postData.dataEvento === this.formatedDate) {
       postData.dataEvento = this.formatDate(this.originalDate)
     }
 
+    console.log(this.uploadedFiles)
 
     this.httpMethods.updateEvent(this.id, postData as Events).pipe(
       finalize(() => {

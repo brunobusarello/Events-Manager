@@ -3,20 +3,41 @@
         <p-card [style]="{ width: '400px'}" class="card-container">
             <div pFocusTrap class="form-content">
                 <p-floatlabel variant="in">
-                    <input pInputText formControlName="nome" id="nome" name="nome" class="w-full"
-                        autocomplete="on" autofocus="true" />
+                    <input pInputText formControlName="nome" id="nome" name="nome" class="w-full" autocomplete="on"
+                        autofocus="true" />
                     <label for="nome">Nome</label>
                 </p-floatlabel>
                 <p-floatlabel variant="in">
-                    <input pInputText formControlName="local" id="local" name="local" class="w-full"
-                        autocomplete="on" autofocus="true" />
+                    <input pInputText formControlName="local" id="local" name="local" class="w-full" autocomplete="on"
+                        autofocus="true" />
                     <label for="local">Local</label>
                 </p-floatlabel>
                 <p-floatlabel variant="in">
-                    <p-datepicker appendTo="body" formControlName="dataEvento" dateFormat="dd/mm/yy" inputId="in_label" size="small" showIcon iconDisplay="input" />
+                    <p-datepicker appendTo="body" formControlName="dataEvento" dateFormat="dd/mm/yy" inputId="in_label"
+                        size="small" showIcon iconDisplay="input" class="w-full" styleClass="w-full" />
                     <label for="in_label">Data do Evento</label>
                 </p-floatlabel>
+
+                <input type="file" (change)="fileChangeEvent($event)" />
                 
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                    [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                    (loadImageFailed)="loadImageFailed()"></image-cropper>
+
+                <!-- Código antigo do upload de imagem -->
+                <!-- <p-fileupload #fileUploader name="file" url="dynamicUrl" [showUploadButton]="false"
+                    [showCancelButton]="false" (onUpload)="onUpload($any($event))" accept="image/*"
+                    maxFileSize="1000000" mode="advanced">
+                    <ng-template #empty>
+                        <div>Drag and drop files to here to upload.</div>
+                    </ng-template>
+                    <ng-template #content>
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileupload> -->
                 <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="eventForm.invalid"
                     [loading]="loading" (onClick)="load()" styleClass="w-full" />
             </div>

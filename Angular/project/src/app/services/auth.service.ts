@@ -49,8 +49,12 @@ export class AuthService {
   }
 
   // Requisições HTTP para os eventos
-  getEvents(offset: number, limit: number): Observable<{events: Events[], totalEvents: number}> {
+  getEventsLimited(offset: number, limit: number): Observable<{events: Events[], totalEvents: number}> {
     return this.httpClient.get<{events: Events[], totalEvents: number}>(`${this.baseUrl}/events/limited?offset=${offset}&limit=${limit}`)
+  }
+
+  getEvents(): Observable<Events[]> {
+    return this.httpClient.get<Events[]>(`${this.baseUrl}/events`)
   }
 
   registerEvents(events: Events){
@@ -67,5 +71,13 @@ export class AuthService {
 
   deleteEvent(id: number){
     return this.httpClient.delete(`${this.baseUrl}/events/${id}`)
+  }
+
+  getImage(id: number): any {
+    return this.httpClient.get(`${this.baseUrl}/files/download/${id}`)
+  }
+
+  saveImage(id: number, file: File): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/files/upload/${id}`, file)
   }
 }

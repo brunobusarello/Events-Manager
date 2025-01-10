@@ -3,7 +3,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../../../services/auth.service';
-import { ManageusersComponent } from '../../manageusers/manageusers.component';
 import { ManageeventsComponent } from '../manageevents.component';
 
 @Component({

@@ -7,6 +7,7 @@ import { DashboardComponent } from './components/modules/dashboard/dashboard.com
 import { ManageusersComponent } from './components/modules/manageusers/manageusers.component';
 import { privilegiesGuard } from './guards/privilegies.guard';
 import { ManageeventsComponent } from './components/modules/manageevents/manageevents.component';
+import { ListeventsComponent } from './components/modules/listevents/listevents.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -30,5 +31,6 @@ export const routes: Routes = [
             }
         ]
     },
+    { path: 'eventos', component: ListeventsComponent},
     { path: '**', redirectTo: "home", pathMatch: 'full' },
 ];

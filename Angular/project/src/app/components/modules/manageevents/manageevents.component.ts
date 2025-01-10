@@ -63,7 +63,7 @@ export class ManageeventsComponent {
   }
 
   loadEvents() {
-    this.authService.getEvents(this.offset, this.rows).subscribe({
+    this.authService.getEventsLimited(this.offset, this.rows).subscribe({
       next: response => {
         const newEvents = response.events
         this.total = response.totalEvents
