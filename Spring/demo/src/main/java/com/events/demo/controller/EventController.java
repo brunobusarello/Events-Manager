@@ -1,9 +1,10 @@
 package com.events.demo.controller;
 
+import com.events.demo.dto.EventDTO;
+import com.events.demo.dto.EventFullDTO;
 import com.events.demo.dto.ResponseEventDTO;
 import com.events.demo.exception.ResourceNotFoundException;
 import com.events.demo.model.Event;
-import com.events.demo.model.User;
 import com.events.demo.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,40 +30,36 @@ public class EventController {
     @GetMapping("/limited")
     public ResponseEventDTO getLimitedEvents(@RequestParam(defaultValue = "0") int offset,
                                              @RequestParam(defaultValue = "10") int limit){
-        ResponseEventDTO responseEventDTO = new ResponseEventDTO();
-        List<Event> events = new ArrayList<>();
-        Page<Event> eventsResponse = eventService.getAllLimit(offset, limit);
-
-        for (Event event: eventsResponse){
-            Event events1 = new Event();
-            events1.setId(event.getId());
-            events1.setDataEvento(event.getDataEvento());
-            events1.setLocal(event.getLocal());
-            events1.setNome(event.getNome());
-            events.add(events1);
-        }
-
-        responseEventDTO.setTotalEvents(eventService.getTotalEvents());
-        responseEventDTO.setEvents(events);
-
-        return responseEventDTO;
+        return eventService.getAllLimit(offset, limit);
     }
 
+    @GetMapping("/available/user/{id}")
+    public List<EventDTO> getAvailableEvents(@PathVariable Long id){
+        return eventService.getAvailableEvents(id);
+    }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getEvents(@PathVariable long id) {
+//        return eventService.findById(id)
+//                .map(event -> {
+//                    Map<String, Object> response = new HashMap<>();
+//                    response.put("id", event.getId());
+//                    response.put("nome", event.getNome());
+//                    response.put("dataEvento", event.getDataEvento());
+//                    response.put("local", event.getLocal());
+//                    response.put("usuariosInscritos", event.getSubscribedUsers().stream()
+//                            .map(relacao -> relacao.getUser().getFullName())
+//                            .toList());
+//                    return ResponseEntity.ok(response);
+//                })
+//                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+//    }
+
+
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEvents(@PathVariable long id) {
-        return eventService.findById(id)
-                .map(event -> {
-                    Map<String, Object> response = new HashMap<>();
-                    response.put("id", event.getId());
-                    response.put("nome", event.getNome());
-                    response.put("dataEvento", event.getDataEvento());
-                    response.put("local", event.getLocal());
-                    response.put("usuariosInscritos", event.getSubscribedUsers().stream()
-                            .map(relacao -> relacao.getUser().getFullName())
-                            .toList());
-                    return ResponseEntity.ok(response);
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+    public EventFullDTO getEvent(@PathVariable Long id){
+        return eventService.getEvent(id);
     }
 
     @PostMapping

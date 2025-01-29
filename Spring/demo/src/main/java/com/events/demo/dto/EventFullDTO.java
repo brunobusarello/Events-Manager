@@ -1,30 +1,34 @@
-package com.events.demo.model;
+package com.events.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.events.demo.model.Event;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Event {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EventFullDTO {
+    private List<UserNameDTO> users;
     private Long id;
-
     private String nome;
     private Date dataEvento;
     private String local;
 
-    public Event() {
+    public EventFullDTO() {
     }
 
-    public Event(Long id, String nome, Date dataEvento, String local) {
-        this.id = id;
-        this.nome = nome;
-        this.dataEvento = dataEvento;
-        this.local = local;
+    public EventFullDTO(List<UserNameDTO> users, Event event) {
+        this.users = users;
+        id = event.getId();
+        nome = event.getNome();
+        dataEvento = event.getDataEvento();
+        local = event.getLocal();
+    }
+
+    public List<UserNameDTO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserNameDTO> users) {
+        this.users = users;
     }
 
     public Long getId() {

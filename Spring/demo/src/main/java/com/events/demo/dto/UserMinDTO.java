@@ -1,13 +1,24 @@
 package com.events.demo.dto;
 
-import java.util.List;
+import com.events.demo.model.User;
 
-public class UserDTO {
+public class UserMinDTO {
     private long id;
     private String fullName;
     private String cpf;
     private String email;
     private int privilegies;
+
+    public UserMinDTO() {
+    }
+
+    public UserMinDTO(User user) {
+        this.id = user.getId();
+        this.fullName = user.getFullName();
+        this.cpf = user.getCpf();
+        this.email = user.getEmail();
+        this.privilegies = user.getPrivilegies();
+    }
 
     public long getId() {
         return id;

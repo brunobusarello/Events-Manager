@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.events.demo.dto.ResponseUserDTO;
-import com.events.demo.dto.UserDTO;
+import com.events.demo.dto.UserMinDTO;
 import com.events.demo.dto.UserLogin;
 import com.events.demo.exception.ResourceNotFoundException;
 import com.events.demo.model.User;
@@ -35,46 +35,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserDTO> getUsers() {
-        List<UserDTO> usersDTO = new ArrayList<>();
-        List<User> users = userService.getUsers();
-
-        for (User user : users) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setCpf(user.getCpf());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setFullName(user.getFullName());
-            userDTO.setId(user.getId());
-            userDTO.setPrivilegies(user.getPrivilegies());
-            usersDTO.add(userDTO);
-        }
-        return usersDTO;
-    }
-
-    @GetMapping("/teste")
-    public List<User> showEvents(){
+    public List<UserMinDTO> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/limited")
     public ResponseUserDTO getLimitUsers(@RequestParam(defaultValue = "0") int offset,
             @RequestParam(defaultValue = "10") int limit) {
-        ResponseUserDTO responseUserDTO = new ResponseUserDTO();
-        List<UserDTO> usersDTO = new ArrayList<>();
-        Page<User> users = userService.getAllLimit(offset, limit);
-
-        for (User user : users) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setCpf(user.getCpf());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setFullName(user.getFullName());
-            userDTO.setId(user.getId());
-            userDTO.setPrivilegies(user.getPrivilegies());
-            usersDTO.add(userDTO);
-        }
-        responseUserDTO.setUsers(usersDTO);
-        responseUserDTO.setTotalUsers(userService.getTotalUsers());
-        return responseUserDTO;
+        return userService.getAllLimit(offset, limit);
     }
 
     @GetMapping("/{id}")
@@ -104,33 +72,33 @@ public class UserController {
     public ResponseEntity<?> verifyUser(@RequestBody UserLogin userLogin) {
         User user = userService.getUserByEmail(userLogin.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("Email inválido"));
-        UserDTO userDTO = new UserDTO();
-        userDTO.setCpf(user.getCpf());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPrivilegies(user.getPrivilegies());
-        userDTO.setId(user.getId());
-        userDTO.setFullName(user.getFullName());
+        UserMinDTO userMinDTO = new UserMinDTO();
+        userMinDTO.setCpf(user.getCpf());
+        userMinDTO.setEmail(user.getEmail());
+        userMinDTO.setPrivilegies(user.getPrivilegies());
+        userMinDTO.setId(user.getId());
+        userMinDTO.setFullName(user.getFullName());
 
         // Comparar senhas usando equals()
         if (user.getPassword().equals(userLogin.getPassword())) {
-            return ResponseEntity.ok(userDTO);
+            return ResponseEntity.ok(userMinDTO);
         }
         return ResponseEntity.status(404).body("Senha inválida");
     }
 
     @GetMapping("/email/{email}")
-    public UserDTO getUserByEmail(@PathVariable String email) {
+    public UserMinDTO getUserByEmail(@PathVariable String email) {
         User user = userService.getUserByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Não existe um usuário com este email"));
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setCpf(user.getCpf());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setFullName(user.getFullName());
-        userDTO.setId(user.getId());
-        userDTO.setPrivilegies(user.getPrivilegies());
+        UserMinDTO userMinDTO = new UserMinDTO();
+        userMinDTO.setCpf(user.getCpf());
+        userMinDTO.setEmail(user.getEmail());
+        userMinDTO.setFullName(user.getFullName());
+        userMinDTO.setId(user.getId());
+        userMinDTO.setPrivilegies(user.getPrivilegies());
 
-        return userDTO;
+        return userMinDTO;
     }
 
     @PutMapping("/{id}")

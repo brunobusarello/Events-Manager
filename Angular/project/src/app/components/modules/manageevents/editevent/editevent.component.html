@@ -27,6 +27,15 @@
                         </ul>
                     </ng-template>
                 </p-fileupload>
+
+                <p>Usuários inscritos</p>
+
+                @for (item of users; track $index) {
+                    <table>
+                        <td>{{item.id}}</td>
+                        <td>{{item.fullName}}</td>
+                    </table>
+                }
                 
                 <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="eventForm.invalid"
                     [loading]="loading" (onClick)="load()" styleClass="w-full" />

@@ -10,32 +10,33 @@ import java.util.Set;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String fullName;
     private String email;
     private String cpf;
     private String password;
-    private int privilegies;
+    private Integer privilegies;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<EventsUsers> inscritEvents = new ArrayList<>();
-
-    public List<EventsUsers> getInscritEvents() {
-        return inscritEvents;
+    public User() {
     }
 
-    public void setInscritEvents(List<EventsUsers> inscritEvents) {
-        this.inscritEvents = inscritEvents;
+    public User(Long id, String fullName, String email, String cpf, String password, Integer privilegies) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.cpf = cpf;
+        this.password = password;
+        this.privilegies = privilegies;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,11 +72,11 @@ public class User {
         this.password = password;
     }
 
-    public int getPrivilegies() {
+    public Integer getPrivilegies() {
         return privilegies;
     }
 
-    public void setPrivilegies(int privilegies) {
+    public void setPrivilegies(Integer privilegies) {
         this.privilegies = privilegies;
     }
 }

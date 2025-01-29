@@ -8,6 +8,14 @@ public class ResponseEventDTO {
     private List<Event> events;
     private long totalEvents;
 
+    public ResponseEventDTO() {
+    }
+
+    public ResponseEventDTO(List<Event> events, long totalEvents) {
+        this.events = events;
+        this.totalEvents = totalEvents;
+    }
+
     public List<Event> getEvents() {
         return events;
     }

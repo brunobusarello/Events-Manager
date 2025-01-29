@@ -19,6 +19,7 @@ import { ManageeventsComponent } from '../manageevents.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FileUpload } from 'primeng/fileupload';
 import { HttpClient } from '@angular/common/http';
+import { UserMin } from '../../../../interfaces/user-min';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -35,6 +36,8 @@ export class EditeventComponent {
   @ViewChild('fileUploader') fileUploader!: FileUpload
   @Input() id!: number;
   visible = true;
+
+  users!: UserMin[];
 
   formatedDate!: string;
   originalDate!: string;
@@ -94,6 +97,7 @@ export class EditeventComponent {
         this.originalDate = response.dataEvento
         response.dataEvento = this.datePipe.transform(response.dataEvento, 'dd/MM/yyyy')
         this.formatedDate = response.dataEvento
+        this.users = response.users
         this.eventForm.setValue({
           dataEvento: response.dataEvento,
           local: response.local,

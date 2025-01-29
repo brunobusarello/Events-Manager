@@ -3,14 +3,14 @@ package com.events.demo.dto;
 import java.util.List;
 
 public class ResponseUserDTO {
-    private List<UserDTO> users;
+    private List<UserMinDTO> users;
     private long totalUsers;
 
-    public List<UserDTO> getUsers() {
+    public List<UserMinDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserDTO> users) {
+    public void setUsers(List<UserMinDTO> users) {
         this.users = users;
     }
 
